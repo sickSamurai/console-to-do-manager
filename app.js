@@ -39,7 +39,7 @@ const main = async () => {
             break
          case "5":
             let idList = await selectTaskToComplete(tasks.getList())
-            tasks.toggleState(idList)
+            tasks.toggleTasksStates(idList)
             save(tasks)
             break
          case "6":

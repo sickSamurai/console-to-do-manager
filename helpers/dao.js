@@ -1,5 +1,6 @@
 const fs = require("fs")
 const file = "./db/data.json"
+
 const saveFile = data => {
    fs.writeFileSync(file, data)
 }

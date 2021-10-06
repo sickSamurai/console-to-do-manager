@@ -1,5 +1,6 @@
-const Task = require("./Task")
 require("colors")
+const Task = require("./Task")
+
 class Tasks {
    constructor() {
       this.tasks = {}
@@ -8,7 +9,7 @@ class Tasks {
    parseTaskToString(task) {
       const { description, finishedOn } = task
       const state = finishedOn ? `${finishedOn}`.green : "Pendiente".red
-      return `${description} || ${state}`
+      return `${description} ${"||".red} ${state}`
    }
 
    createTask(description) {
@@ -35,20 +36,18 @@ class Tasks {
       })
    }
 
-   toggleState(idList = [String()]) {
-      idList.forEach(id => {
-         if (!this.tasks[id].finishedOn) this.tasks[id].finishedOn = new Date().toString()
-      })
-
+   toggleTasksStates(idList = [String()]) {
       Object.values(this.tasks).forEach(task => {
-         if (!idList.includes(task.id)) task.finishedOn = null
+         if (idList.includes(task.id)) {
+            if (!task.finishedOn) task.finishedOn = new Date().toString()
+         } else task.finishedOn = null
       })
    }
 
    getInfoTasksFilteredByState(completed = true) {
       return Object.values(this.tasks)
-         .filter(value => {
-            const { finishedOn } = value
+         .filter(task => {
+            const { finishedOn } = task
             return completed ? finishedOn !== null : finishedOn === null
          })
          .map((task, index) => `${(index + 1).toString().green}. ${this.parseTaskToString(task)}`)
